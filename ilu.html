@@ -1,0 +1,95 @@
+v<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heart Animation</title>
+
+<style>
+body{
+    margin:0;
+    background:black;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+#heart{
+    position:relative;
+    width:700px;
+    height:700px;
+}
+
+.word{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:18px;
+    font-family:Arial, sans-serif;
+    font-weight:bold;
+    white-space:nowrap;
+    opacity:0;
+    transform:scale(0);
+    transition:0.3s;
+    text-shadow:0 0 10px red;
+}
+
+.show{
+    opacity:1;
+    transform:scale(1);
+}
+</style>
+</head>
+
+<body>
+
+<div id="heart"></div>
+
+<script>
+const heart = document.getElementById("heart");
+const points = [];
+
+// Gjeneron pikat e zemrës
+for(let t=0; t<Math.PI*2; t+=0.08){
+
+    let x = 16*Math.pow(Math.sin(t),3);
+    let y = 13*Math.cos(t)
+          -5*Math.cos(2*t)
+          -2*Math.cos(3*t)
+          -Math.cos(4*t);
+
+    points.push({
+        x:x*18+300,
+        y:-y*18+250
+    });
+}
+
+let i = 0;
+
+function drawHeart(){
+
+    if(i >= points.length) return;
+
+    const span = document.createElement("span");
+    span.className="word";
+    span.innerText="I LOVE YOU";
+
+    span.style.left = points[i].x + "px";
+    span.style.top = points[i].y + "px";
+
+    heart.appendChild(span);
+
+    setTimeout(()=>{
+        span.classList.add("show");
+    },20);
+
+    i++;
+
+    setTimeout(drawHeart,80); // shpejtësia
+}
+
+drawHeart();
+</script>
+
+</body>
+</html>
